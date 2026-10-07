@@ -4,7 +4,8 @@
 
 This case study describes how a change request for a production control system (PLC program and operator
 visualisation) moves from the operator's report to a tested change in operation. The process is modelled in
-**BPMN 2.0** as **as-is**, meaning the way it actually runs today. It is based on my own work.
+**BPMN 2.0** as **as-is**, meaning the way it actually runs today. It is based on my own work. A second diagram
+in the **to-be** state shows the proposed changes to the process, see [To-be process](#to-be-process).
 
 ![As-is process: control system change](diagrams/01_as_is_change_process.svg)
 
@@ -33,6 +34,7 @@ The case study is anonymised and contains no company, line, machine or person na
 | Analyst (my role) | clarifying the request, analysing alarm and fault history, specification, on-site test (UAT), operator training, documentation |
 | Electrical foreman | approving the request, joint decision on a program change, confirming the result, deciding on a rollback |
 | External programmer | implementing and uploading the change. As a separate organisation it has its own pool in the diagram |
+| Operations manager | planning shutdowns. Has its own lane in the to-be diagram |
 
 ## Process scope
 The process starts with a problem on the line and ends with one of three outcomes:
@@ -82,7 +84,7 @@ went through this process:
 - For readability, the joint decision of the analyst and the foreman is drawn as a gateway in the analyst lane
   with a note.
 
-## Model limitations and to-be proposals
+## As-is model limitations
 - Rollback and shutdown planning are not drawn in the diagram. A to-be version would add them as separate steps,
   including the foreman's decision whether to restore the previous version or fix the fault.
 - The diagram follows one request and does not distinguish urgent and batched changes. A to-be version would add
@@ -91,6 +93,36 @@ went through this process:
   possible to track the number of changes and how long they take.
 - Acceptance criteria are agreed verbally only during the test. If they were part of the specification, the test
   would be repeatable and the result unambiguous.
+
+The to-be process in the next section addresses all four limitations.
+
+## To-be process
+![To-be process: control system change](diagrams/02_to_be_change_process.svg)
+
+Source file for draw.io: [`diagrams/02_to_be_change_process.drawio`](diagrams/02_to_be_change_process.drawio)
+
+Steps that change or are new compared to the as-is are green. The number in brackets matches the row of the
+table. The process has a new lane for the operations manager, because the manager sets the shutdown date.
+
+| No. | As-is | To-be | Benefit | What needs to be introduced |
+|-----|-------|-------|---------|-----------------------------|
+| 1 | Requests are written into a paper book in the control room. | The operator records the request in a log with fixed fields: date, requester, line, description, proposed priority, decision and status. The status is updated at every decision and at closure. | It is visible how many requests come in, how long they take and how many are rejected. | A shared table or list with fixed columns and a rule on who updates the status. |
+| 2 | The process does not distinguish urgent and minor changes. | The foreman decides whether a change is urgent, meaning whether it endangers operation. The operator proposes the urgency. An urgent change goes straight to the specification. Minor changes are added to a batch and sent to the programmer once there are more of them. | An urgent problem does not wait. Minor changes are done in one order and in one shutdown. | A clear criterion of what is urgent. |
+| 3 | The shutdown is only a precondition of the upload, it is not part of the process. | The foreman agrees the upload date with the programmer and the operations manager. The operations manager plans the shutdown and the programmer receives the date as a message. | Every upload is tied to a specific shutdown and it is clear who sets the date. | A rule that an urgent change is uploaded in an extra shutdown and a batch in a planned one. |
+| 4 | Acceptance criteria are agreed verbally only during the test. | The specification contains acceptance criteria and the on-site test follows them. | The test is repeatable and the result unambiguous. | A specification template with a section for acceptance criteria. |
+| 5 | Neither the rollback nor the decision about it is visible in the process. | If the change does not work, the foreman decides whether to restore the previous version. If yes, the foreman orders a rollback from the programmer. In both cases the analyst sends the programmer a fault description. | A change that does not work does not stay in operation without a decision, and it is clear who decides. | A rule for when the previous version is restored. The programmer already keeps the program backup today. |
+
+The request log makes it possible to track these indicators:
+- number of requests per month,
+- average time from recording a request to handover to operation,
+- share of rejected requests,
+- share of urgent changes.
+
+Modelling decisions in the to-be:
+- Where two paths join again, there is a merging gateway. This keeps the flow unambiguous.
+- The request log is a data store. The dotted line shows data being written, not the process flow.
+- Rules that are not process steps (for example when a batch is sent to the programmer) are in the table, not in
+  the diagram. This keeps the diagram readable.
 
 ## Glossary
 | Czech label in the diagram | English |
@@ -114,9 +146,21 @@ went through this process:
 | Zaškolit operátory a aktualizovat dokumentaci | Train operators and update documentation |
 | Změna předána do provozu | Change handed over to operation |
 | SPECIFIKACE · ZMĚNA NAHRÁNA · POPIS CHYBY | SPECIFICATION · CHANGE UPLOADED · FAULT DESCRIPTION |
+| **To-be only** | |
+| Vedoucí provozu | Operations manager |
+| Zapsat požadavek do evidence · Evidence požadavků | Record the request in the log · Request log |
+| Datum, žadatel, linka, popis, návrh priority, rozhodnutí, stav. Stav se aktualizuje při každém rozhodnutí a uzavření. | Date, requester, line, description, proposed priority, decision, status. The status is updated at every decision and at closure. |
+| Akutní? (ohrožuje provoz?) | Urgent? (does it endanger operation?) |
+| Zařadit do dávky drobných změn | Add to the batch of minor changes |
+| Zpracovat specifikaci vč. akceptačních kritérií | Prepare the specification incl. acceptance criteria |
+| Dohodnout termín nahrání s programátorem a vedoucím provozu | Agree the upload date with the programmer and the operations manager |
+| Naplánovat odstávku | Plan the shutdown |
+| Otestovat změnu podle akceptačních kritérií (UAT) | Test the change against the acceptance criteria (UAT) |
+| Vrátit původní verzi? · Nařídit rollback programátorovi | Restore the previous version? · Order a rollback from the programmer |
+| TERMÍN NAHRÁNÍ · ROLLBACK | UPLOAD DATE · ROLLBACK |
 
 ## Files
-- `diagrams/` BPMN diagram (draw.io source, SVG and PNG)
-- `docs/process_description.md` description of each step with role, input, output and rule
+- `diagrams/` as-is and to-be BPMN diagrams (draw.io source, SVG and PNG)
+- `docs/process_description.md` description of each as-is step with role, input, output and rule
 
 Author: David Tejkl · [LinkedIn](https://www.linkedin.com/in/david-tejkl) · [more projects on GitHub](https://github.com/DavidTejkl)

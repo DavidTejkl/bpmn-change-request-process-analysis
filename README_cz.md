@@ -4,7 +4,8 @@
 
 Případová studie popisuje, jak se požadavek na změnu řídicího systému výroby (program PLC a vizualizace pro
 obsluhu) dostane od nahlášení operátorem až k otestované změně v provozu. Proces je zachycen v notaci
-**BPMN 2.0** ve stavu **as-is**, tedy tak, jak dnes skutečně probíhá. Vychází z mé praxe.
+**BPMN 2.0** ve stavu **as-is**, tedy tak, jak dnes skutečně probíhá. Vychází z mé praxe. Druhý diagram ve stavu
+**to-be** ukazuje navržené změny procesu, viz [Proces to-be](#proces-to-be).
 
 ![Proces as-is: změna řídicího systému](diagrams/01_as_is_change_process.svg)
 
@@ -31,6 +32,7 @@ Studie je anonymizovaná a neobsahuje názvy firmy, linek, strojů ani osob.
 | Analytik (moje role) | vyjasnění požadavku, analýza historie alarmů a poruch, specifikace, test na místě (UAT), zaškolení operátorů, dokumentace |
 | Mistr elektro | schválení požadavku, spolurozhodnutí o změně programu, potvrzení výsledku, rozhodnutí o návratu na původní verzi |
 | Externí programátor | implementace a nahrání změny. Jako samostatná organizace má v diagramu vlastní pool |
+| Vedoucí provozu | plánování odstávek. V diagramu to-be má vlastní dráhu |
 
 ## Hranice procesu
 Proces začíná problémem na lince a končí jedním ze tří výsledků:
@@ -79,7 +81,7 @@ prošly:
 - Společné rozhodnutí analytika a mistra je kvůli přehlednosti zakresleno jako brána v dráze analytika
   s poznámkou.
 
-## Omezení modelu a návrhy pro to-be
+## Omezení modelu as-is
 - Rollback ani plánování odstávky nejsou v diagramu zakresleny. Verze to-be by je doplnila jako samostatné kroky
   včetně rozhodnutí mistra, zda se vrací původní verze, nebo se chyba opraví.
 - Diagram sleduje jeden požadavek a nerozlišuje akutní a dávkové změny. Verze to-be by přidala bránu „Akutní?“
@@ -89,8 +91,38 @@ prošly:
 - Akceptační kritéria se domlouvají ústně až při testu. Pokud by byla součástí specifikace, test by byl
   opakovatelný a výsledek jednoznačný.
 
+Všechna čtyři omezení řeší proces to-be v další části.
+
+## Proces to-be
+![Proces to-be: změna řídicího systému](diagrams/02_to_be_change_process.svg)
+
+Zdrojový soubor pro draw.io: [`diagrams/02_to_be_change_process.drawio`](diagrams/02_to_be_change_process.drawio)
+
+Zeleně jsou kroky, které se proti as-is mění nebo přibývají. Číslo v závorce odpovídá řádku tabulky. Do procesu
+přibyla dráha Vedoucí provozu, protože termín odstávky určuje on.
+
+| Č. | As-is | To-be | Přínos | Co je potřeba zavést |
+|----|-------|-------|--------|----------------------|
+| 1 | Požadavky se zapisují do papírové knihy na velínu. | Operátor zapíše požadavek do evidence s pevnými údaji: datum, žadatel, linka, popis, návrh priority, rozhodnutí a stav. Stav se aktualizuje při každém rozhodnutí a uzavření. | Je vidět, kolik požadavků přichází, jak dlouho trvá jejich vyřízení a kolik se jich zamítne. | Sdílená tabulka nebo seznam s pevnými sloupci a pravidlo, kdo stav aktualizuje. |
+| 2 | Proces nerozlišuje akutní a drobné změny. | Mistr rozhodne, zda je změna akutní, tedy zda ohrožuje provoz. Operátor akutnost navrhuje. Akutní změna jde rovnou do specifikace. Drobné změny se zařadí do dávky a programátorovi se předají, až je jich víc. | Akutní problém nečeká. Drobné změny se provedou v jedné zakázce a v jedné odstávce. | Jasné kritérium, co je akutní. |
+| 3 | Odstávka je jen předpoklad nahrání, v procesu není. | Mistr dohodne termín nahrání s programátorem a vedoucím provozu. Vedoucí provozu naplánuje odstávku a programátor dostane termín zprávou. | Nahrání je vždy navázané na konkrétní odstávku a je jasné, kdo termín určuje. | Pravidlo, že akutní změna se nahrává v mimořádné odstávce a dávka v plánované. |
+| 4 | Akceptační kritéria se domlouvají ústně až při testu. | Specifikace obsahuje akceptační kritéria a test na místě probíhá podle nich. | Test je opakovatelný a výsledek jednoznačný. | Šablona specifikace s oddílem pro akceptační kritéria. |
+| 5 | Rollback ani rozhodnutí o něm nejsou v procesu vidět. | Pokud změna nefunguje, mistr rozhodne, zda se vrací původní verze. Pokud ano, nařídí programátorovi rollback. V obou případech analytik předá programátorovi popis chyby. | Nefunkční změna nezůstane v provozu bez rozhodnutí a je jasné, kdo rozhoduje. | Pravidlo, kdy se vrací původní verze. Zálohu programu drží programátor už dnes. |
+
+Evidence požadavků umožní sledovat tyto ukazatele:
+- počet požadavků za měsíc,
+- průměrnou dobu od zápisu požadavku po předání do provozu,
+- podíl zamítnutých požadavků,
+- podíl akutních změn.
+
+Modelovací rozhodnutí v to-be:
+- Kde se dvě cesty znovu spojují, je slučovací brána. Tok tak zůstává jednoznačný.
+- Evidence požadavků je úložiště dat. Tečkovaná čára znázorňuje zápis dat, ne tok procesu.
+- Pravidla, která nejsou krokem procesu (například kdy se dávka předá programátorovi), jsou v tabulce, ne
+  v diagramu. Diagram tak zůstává čitelný.
+
 ## Soubory
-- `diagrams/` diagram BPMN (zdroj pro draw.io, SVG a PNG)
-- `docs/process_description.md` popis jednotlivých kroků s rolí, vstupem, výstupem a pravidlem
+- `diagrams/` diagramy BPMN as-is a to-be (zdroj pro draw.io, SVG a PNG)
+- `docs/process_description.md` popis jednotlivých kroků procesu as-is s rolí, vstupem, výstupem a pravidlem
 
 Autor: David Tejkl · [LinkedIn](https://www.linkedin.com/in/david-tejkl) · [další projekty na GitHubu](https://github.com/DavidTejkl)
