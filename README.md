@@ -179,5 +179,7 @@ Modelling decisions in the to-be:
 ## Files
 - `diagrams/` as-is and to-be BPMN diagrams (draw.io source, SVG and PNG)
 - `docs/process_description.md` description of each as-is step with role, input, output and rule
+- [`docs/specification_fm_reset.md`](docs/specification_fm_reset.md) specification of the change "Fault reset
+  from the control room" with requirements, business rules and acceptance criteria
 
 Author: David Tejkl · [LinkedIn](https://www.linkedin.com/in/david-tejkl) · [more projects on GitHub](https://github.com/DavidTejkl)
