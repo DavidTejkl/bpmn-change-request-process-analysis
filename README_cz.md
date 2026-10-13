@@ -135,5 +135,6 @@ Modelovací rozhodnutí v to-be:
 - `docs/process_description.md` popis jednotlivých kroků procesu as-is s rolí, vstupem, výstupem a pravidlem
 - [`docs/specification_fm_reset_cz.md`](docs/specification_fm_reset_cz.md) specifikace změny „Kvitace poruch
   z velínu“ s požadavky, obchodními pravidly, akceptačními kritérii, protokolem UAT a maticí sledovatelnosti
+- [`docs/user_stories_cz.md`](docs/user_stories_cz.md) user stories ke stejné změně s prioritami MoSCoW
 
 Autor: David Tejkl · [LinkedIn](https://www.linkedin.com/in/david-tejkl) · [další projekty na GitHubu](https://github.com/DavidTejkl)
