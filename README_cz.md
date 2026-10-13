@@ -130,8 +130,19 @@ Modelovací rozhodnutí v to-be:
 - Pravidla, která nejsou krokem procesu (například kdy se dávka předá programátorovi), jsou v tabulce, ne
   v diagramu. Diagram tak zůstává čitelný.
 
+## Kontext systému
+![Kontextový diagram: řídicí systém pecí](diagrams/03_system_context.svg)
+
+Zdrojový soubor pro draw.io: [`diagrams/03_system_context.drawio`](diagrams/03_system_context.drawio)
+
+Diagram ukazuje hranici řídicího systému a to, kdo s ním komunikuje. Operátor ovládá technologii přes vizualizaci
+na velínu. Vizualizace posílá povely do PLC a PLC je po sběrnici Profibus předává frekvenčním měničům dmychadel.
+Alarmy a poruchy se ukládají do historie v databázi SQL Server, ze které analytik vychází při analýze poruch.
+Elektrikář může kvitovat poruchu přímo na měniči v rozvodně. Externí programátor upravuje program a vizualizaci
+přes vzdálený přístup a drží zálohu programu. Kopii zálohy máme i u nás, nahrává ji ale vždy programátor.
+
 ## Soubory
-- `diagrams/` diagramy BPMN as-is a to-be (zdroj pro draw.io, SVG a PNG)
+- `diagrams/` diagramy BPMN as-is a to-be a kontextový diagram systému (zdroj pro draw.io, SVG a PNG)
 - `docs/process_description.md` popis jednotlivých kroků procesu as-is s rolí, vstupem, výstupem a pravidlem
 - [`docs/specification_fm_reset_cz.md`](docs/specification_fm_reset_cz.md) specifikace změny „Kvitace poruch
   z velínu“ s požadavky, obchodními pravidly, akceptačními kritérii, protokolem UAT a maticí sledovatelnosti

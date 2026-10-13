@@ -135,6 +135,19 @@ Modelling decisions in the to-be:
 - Rules that are not process steps (for example when a batch is sent to the programmer) are in the table, not in
   the diagram. This keeps the diagram readable.
 
+## System context
+![Context diagram: kiln control system](diagrams/03_system_context.svg)
+
+Source file for draw.io: [`diagrams/03_system_context.drawio`](diagrams/03_system_context.drawio)
+
+The diagram shows the boundary of the control system and who communicates with it. The operator controls the
+plant through the visualisation in the control room. The visualisation sends commands to the PLC, and the PLC
+passes them over the Profibus fieldbus to the frequency converters of the blowers. Alarms and faults are stored
+in a history in an SQL Server database, which the analyst uses for fault analysis. An electrician can reset a
+fault directly on the converter in the switchroom. The external programmer changes the program and the
+visualisation through remote access and keeps the program backup. We also keep a copy of the backup, but it is
+always the programmer who uploads it.
+
 ## Glossary
 | Czech label in the diagram | English |
 |----------------------------|---------|
@@ -175,9 +188,19 @@ Modelling decisions in the to-be:
 | Otestovat změnu podle akceptačních kritérií (UAT) | Test the change against the acceptance criteria (UAT) |
 | Vrátit původní verzi? · Nařídit rollback programátorovi | Restore the previous version? · Order a rollback from the programmer |
 | TERMÍN NAHRÁNÍ · ROLLBACK | UPLOAD DATE · ROLLBACK |
+| **Context diagram** | |
+| Kontextový diagram: řídicí systém pecí · hranice systému | Context diagram: kiln control system · system boundary |
+| Vizualizace InTouch (HMI), velín · PLC Simatic S7 | InTouch visualisation (HMI), control room · Simatic S7 PLC |
+| 20 frekvenčních měničů, dmychadla, 2 pece | 20 frequency converters, blowers, 2 kilns |
+| Historie alarmů · data pro analýzu poruch | Alarm history · data for fault analysis |
+| Elektrikář · kvitace přímo na měniči (rozvodna) | Electrician · reset directly on the converter (switchroom) |
+| ovládání, kvitace poruch · stavy, alarmy · povely · stavy, poruchy | control, fault reset · states, alarms · commands · states, faults |
+| vzdálený přístup, úprava a nahrání programu a vizualizace | remote access, changing and uploading the program and visualisation |
+| Záloha programu u programátora, kopie u nás · záloha před změnou, nahrává jen programátor | Program backup at the programmer, copy on site · backup before the change, only the programmer uploads it |
+| Modře: části řídicího systému. Šedě: lidé a systémy mimo něj. Plná šipka: tok dat nebo povelů. Čárkovaná šipka: záloha. | Blue: parts of the control system. Grey: people and systems outside it. Solid arrow: data or command flow. Dashed arrow: backup. |
 
 ## Files
-- `diagrams/` as-is and to-be BPMN diagrams (draw.io source, SVG and PNG)
+- `diagrams/` as-is and to-be BPMN diagrams and the system context diagram (draw.io source, SVG and PNG)
 - `docs/process_description.md` description of each as-is step with role, input, output and rule
 - [`docs/specification_fm_reset.md`](docs/specification_fm_reset.md) specification of the change "Fault reset
   from the control room" with requirements, business rules, acceptance criteria, UAT record and traceability matrix
