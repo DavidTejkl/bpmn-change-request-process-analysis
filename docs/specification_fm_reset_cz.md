@@ -87,7 +87,43 @@ Operátor kvituje vybrané poruchy měniče přímo z velínu bez příchodu ele
 | AC-05 | Pohon je v kterékoli poruše. | Elektrikář kvituje poruchu přímo na měniči v rozvodně. | Kvitace funguje jako před změnou. | NFR-02 |
 | AC-06 | Změna je nahrána. | Kontrola okna u každého z 20 pohonů. | Každé okno má tlačítko „KVIT PORUCHY FM“. | FR-02, FR-07 |
 
-## 9. Rizika a návrhy
+## 9. Akceptační test (UAT)
+| Položka | Hodnota |
+|---------|---------|
+| Termín | první pec při plánované odstávce kvůli jiným opravám, test probíhal souběžně s nimi (zhruba 4 až 5 hodin). Druhá pec stejným postupem při další odstávce. |
+| Účastníci | analytik a mistr elektro u měničů v rozvodně, operátor na velínu, odborník na frekvenční měniče |
+| Rozsah | všech 20 pohonů |
+| Nalezené chyby | žádné |
+| Výsledek | mistr elektro změnu schválil (BR-04) |
+
+| Test | Kritérium | Postup | Skutečný výsledek | Stav |
+|------|-----------|--------|-------------------|------|
+| UAT-01 | AC-01 | Odborník na měniče nasimuloval přetížení v parametrech měniče. Operátor poruchu kvitoval z velínu. | Porucha kvitována, pohon není červený. | splněno |
+| UAT-02 | AC-02 | Nadproud nebylo možné nasimulovat. Ověřen až při skutečné poruše v provozu po nasazení. | Porucha kvitována z velínu. | splněno, ověřeno v provozu |
+| UAT-03 | AC-03 | Porucha komunikace vyvolána odpojením komunikačního portu. Operátor poruchu kvitoval z velínu. | Porucha kvitována, pohon není červený. | splněno |
+| UAT-04 | AC-04 | Výpadek fáze vyvolán vyjmutím jedné ze tří pojistek pohonu. Operátor zkusil kvitovat z velínu. | Kvitace neproběhla, pohon zůstal červený. | splněno |
+| UAT-05 | AC-05 | Po každé vyvolané poruše kvitace přímo na měniči v rozvodně. | Kvitace funguje. U výpadku fáze kvitace na měniči proběhne, ale měnič před dalším startem zkontroluje fáze a při chybějící fázi poruchu ihned vyhlásí znovu. | splněno |
+| UAT-06 | AC-06 | Kontrola oken všech 20 pohonů. | Každé okno má tlačítko „KVIT PORUCHY FM“. | splněno |
+
+## 10. Matice sledovatelnosti
+| Požadavek | Kritérium | Test | Stav |
+|-----------|-----------|------|------|
+| FR-01 | AC-01 | UAT-01 | splněno |
+| FR-02 | AC-01, AC-06 | UAT-01, UAT-06 | splněno |
+| FR-03 | AC-01 | UAT-01 | splněno |
+| FR-04 (BR-01) | AC-01, AC-02, AC-03 | UAT-01, UAT-02, UAT-03 | splněno |
+| FR-05 (BR-02) | AC-04 | UAT-04 | splněno |
+| FR-06 | AC-01, AC-02, AC-03 | UAT-01, UAT-02, UAT-03 | splněno |
+| FR-07 | AC-06 | UAT-06 | splněno |
+| NFR-01 | AC-04 | UAT-04 | splněno |
+| NFR-02 | AC-05 | UAT-05 | splněno |
+| NFR-03 | žádné | žádný | bez testu |
+| NFR-04 | žádné | žádný | procesní pravidlo, testem se neověřuje |
+
+Matice ukazuje, že požadavek NFR-03 (vzhled okna) neměl vlastní kritérium ani test. V další specifikaci by pro
+něj stačilo kritérium „okno pohonu odpovídá vzhledu ostatních oken vizualizace“ ověřené při UAT-06.
+
+## 11. Rizika a návrhy
 - Kvitace nemá potvrzovací dialog ani omezení počtu pokusů. Pokud se stejná porucha opakuje, operátor ji může
   opakovaně kvitovat a skutečná příčina zůstane skrytá. Návrh: sledovat počet
   kvitací pohonu za směnu v historii alarmů a při opakování přivolat elektrikáře.

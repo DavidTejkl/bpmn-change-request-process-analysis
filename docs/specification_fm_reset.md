@@ -90,7 +90,44 @@ electrician on site.
 | AC-05 | The drive is in any fault. | An electrician resets the fault directly on the converter in the switchroom. | The reset works as before the change. | NFR-02 |
 | AC-06 | The change is uploaded. | Check of the window of each of the 20 drives. | Every window has the button „KVIT PORUCHY FM“. | FR-02, FR-07 |
 
-## 9. Risks and proposals
+## 9. User acceptance test (UAT)
+| Item | Value |
+|------|-------|
+| Date | first kiln during a planned shutdown for other repairs, the test ran alongside them (roughly 4 to 5 hours). Second kiln with the same procedure during the next shutdown. |
+| Participants | analyst and electrical foreman at the converters in the switchroom, operator in the control room, frequency converter specialist |
+| Scope | all 20 drives |
+| Defects found | none |
+| Result | the electrical foreman approved the change (BR-04) |
+
+| Test | Criterion | Procedure | Actual result | Status |
+|------|-----------|-----------|---------------|--------|
+| UAT-01 | AC-01 | The converter specialist simulated an overload in the converter parameters. The operator reset the fault from the control room. | Fault reset, the drive is not red. | passed |
+| UAT-02 | AC-02 | Overcurrent could not be simulated. Verified only during a real fault in operation after deployment. | Fault reset from the control room. | passed, verified in operation |
+| UAT-03 | AC-03 | Communication fault caused by disconnecting the communication port. The operator reset the fault from the control room. | Fault reset, the drive is not red. | passed |
+| UAT-04 | AC-04 | Phase loss caused by removing one of the three fuses of the drive. The operator tried to reset it from the control room. | No reset, the drive stayed red. | passed |
+| UAT-05 | AC-05 | After every simulated fault, reset directly on the converter in the switchroom. | The reset works. For phase loss the reset on the converter goes through, but the converter checks the phases before the next start and reports the fault again at once if a phase is missing. | passed |
+| UAT-06 | AC-06 | Check of the windows of all 20 drives. | Every window has the button „KVIT PORUCHY FM“. | passed |
+
+## 10. Traceability matrix
+| Requirement | Criterion | Test | Status |
+|-------------|-----------|------|--------|
+| FR-01 | AC-01 | UAT-01 | passed |
+| FR-02 | AC-01, AC-06 | UAT-01, UAT-06 | passed |
+| FR-03 | AC-01 | UAT-01 | passed |
+| FR-04 (BR-01) | AC-01, AC-02, AC-03 | UAT-01, UAT-02, UAT-03 | passed |
+| FR-05 (BR-02) | AC-04 | UAT-04 | passed |
+| FR-06 | AC-01, AC-02, AC-03 | UAT-01, UAT-02, UAT-03 | passed |
+| FR-07 | AC-06 | UAT-06 | passed |
+| NFR-01 | AC-04 | UAT-04 | passed |
+| NFR-02 | AC-05 | UAT-05 | passed |
+| NFR-03 | none | none | not tested |
+| NFR-04 | none | none | process rule, not verified by a test |
+
+The matrix shows that NFR-03 (look of the window) had no criterion and no test of its own. In the next
+specification a criterion "the drive window matches the look of the other visualisation windows", checked during
+UAT-06, would be enough.
+
+## 11. Risks and proposals
 - The reset has no confirmation dialog and no limit on the number of attempts. If the same fault keeps coming
   back, the operator can reset it again and again and the real cause stays hidden. Proposal: track the number of
   resets per drive and shift in the alarm history and call an electrician when a fault repeats.

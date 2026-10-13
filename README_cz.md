@@ -134,6 +134,6 @@ Modelovací rozhodnutí v to-be:
 - `diagrams/` diagramy BPMN as-is a to-be (zdroj pro draw.io, SVG a PNG)
 - `docs/process_description.md` popis jednotlivých kroků procesu as-is s rolí, vstupem, výstupem a pravidlem
 - [`docs/specification_fm_reset_cz.md`](docs/specification_fm_reset_cz.md) specifikace změny „Kvitace poruch
-  z velínu“ s požadavky, obchodními pravidly a akceptačními kritérii
+  z velínu“ s požadavky, obchodními pravidly, akceptačními kritérii, protokolem UAT a maticí sledovatelnosti
 
 Autor: David Tejkl · [LinkedIn](https://www.linkedin.com/in/david-tejkl) · [další projekty na GitHubu](https://github.com/DavidTejkl)
