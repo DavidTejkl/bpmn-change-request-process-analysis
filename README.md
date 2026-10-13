@@ -7,6 +7,19 @@ visualisation) moves from the operator's report to a tested change in operation.
 **BPMN 2.0** as **as-is**, meaning the way it actually runs today. It is based on my own work. A second diagram
 in the **to-be** state shows the proposed changes to the process, see [To-be process](#to-be-process).
 
+**Result of one change that went through this process:** the operator resets selected blower faults directly from
+the control room in about 20 seconds. Before, an electrician had to walk to the switchroom, which took roughly
+10 to 60 minutes.
+
+| What the case study contains | Deliverable |
+|------------------------------|-------------|
+| As-is and to-be process in BPMN 2.0, gap analysis | [as-is diagram](#process-analysis-change-request-for-an-industrial-control-system) · [to-be process](#to-be-process) · [step description](docs/process_description.md) |
+| Requirement specification with business rules and acceptance criteria | [specification](docs/specification_fm_reset.md) |
+| User acceptance test (UAT) and traceability matrix | [UAT and matrix](docs/specification_fm_reset.md#9-user-acceptance-test-uat) |
+| User stories with MoSCoW priorities | [user stories](docs/user_stories.md) |
+| RACI responsibility matrix | [RACI](docs/raci.md) |
+| System context diagram | [system context](#system-context) |
+
 ![As-is process: control system change](diagrams/01_as_is_change_process.svg)
 
 Source file for draw.io: [`diagrams/01_as_is_change_process.drawio`](diagrams/01_as_is_change_process.drawio)

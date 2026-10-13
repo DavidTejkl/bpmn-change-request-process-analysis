@@ -7,6 +7,18 @@ obsluhu) dostane od nahlášení operátorem až k otestované změně v provozu
 **BPMN 2.0** ve stavu **as-is**, tedy tak, jak dnes skutečně probíhá. Vychází z mé praxe. Druhý diagram ve stavu
 **to-be** ukazuje navržené změny procesu, viz [Proces to-be](#proces-to-be).
 
+**Výsledek jedné změny, která tímto procesem prošla:** operátor kvituje vybrané poruchy dmychadel přímo z velínu
+přibližně za 20 sekund. Dříve musel elektrikář dojít do rozvodny, což trvalo zhruba 10 až 60 minut.
+
+| Co studie obsahuje | Výstup |
+|--------------------|--------|
+| Proces as-is a to-be v BPMN 2.0, analýza rozdílů | [diagram as-is](#analýza-procesu-požadavek-na-změnu-průmyslového-řídicího-systému) · [proces to-be](#proces-to-be) · [popis kroků](docs/process_description.md) |
+| Specifikace požadavku s obchodními pravidly a akceptačními kritérii | [specifikace](docs/specification_fm_reset_cz.md) |
+| Akceptační test (UAT) a matice sledovatelnosti | [UAT a matice](docs/specification_fm_reset_cz.md#9-akceptační-test-uat) |
+| User stories s prioritami MoSCoW | [user stories](docs/user_stories_cz.md) |
+| Matice odpovědností RACI | [RACI](docs/raci_cz.md) |
+| Kontextový diagram systému | [kontext systému](#kontext-systému) |
+
 ![Proces as-is: změna řídicího systému](diagrams/01_as_is_change_process.svg)
 
 Zdrojový soubor pro draw.io: [`diagrams/01_as_is_change_process.drawio`](diagrams/01_as_is_change_process.drawio)
