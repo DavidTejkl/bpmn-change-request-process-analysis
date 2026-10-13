@@ -111,7 +111,9 @@ The to-be process in the next section addresses all four limitations.
 Source file for draw.io: [`diagrams/02_to_be_change_process.drawio`](diagrams/02_to_be_change_process.drawio)
 
 Steps that change or are new compared to the as-is are green. The number in brackets matches the row of the
-table. The process has a new lane for the operations manager, because the manager sets the shutdown date.
+table. The process has a new lane for the operations manager, because the manager sets the shutdown date. The
+programmer's reply to the specification and the decision "Can it be done?" work the same way as in the as-is,
+so they are not green.
 
 | No. | As-is | To-be | Benefit | What needs to be introduced |
 |-----|-------|-------|---------|-----------------------------|

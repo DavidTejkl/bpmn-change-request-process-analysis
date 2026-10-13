@@ -107,7 +107,8 @@ Všechna čtyři omezení řeší proces to-be v další části.
 Zdrojový soubor pro draw.io: [`diagrams/02_to_be_change_process.drawio`](diagrams/02_to_be_change_process.drawio)
 
 Zeleně jsou kroky, které se proti as-is mění nebo přibývají. Číslo v závorce odpovídá řádku tabulky. Do procesu
-přibyla dráha Vedoucí provozu, protože termín odstávky určuje on.
+přibyla dráha Vedoucí provozu, protože termín odstávky určuje on. Odpověď programátora na specifikaci
+a rozhodnutí „Lze realizovat?“ probíhají stejně jako v as-is, proto nejsou zelené.
 
 | Č. | As-is | To-be | Přínos | Co je potřeba zavést |
 |----|-------|-------|--------|----------------------|

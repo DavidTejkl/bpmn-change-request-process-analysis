@@ -31,7 +31,7 @@ is in brackets.
 | Message | From | To | Channel |
 |---------|------|----|---------|
 | SPECIFIKACE (specification) | Analyst | Programmer | e-mail |
-| VYJÁDŘENÍ PROGRAMÁTORA (programmer's reply) | Programmer | Analyst, foreman in copy | e-mail |
+| VYJÁDŘENÍ PROGRAMÁTORA (programmer's reply) | Programmer | Analyst, foreman in copy | e-mail, in urgent cases phone |
 | SOUHLAS S NÁVRHEM (proposal accepted) | Analyst or foreman | Programmer | e-mail from the analyst, or a phone call from the foreman |
 | ZMĚNA NAHRÁNA (change uploaded) | Programmer | Analyst | e-mail or phone |
 | POPIS CHYBY (fault description) | Analyst | Programmer | e-mail, in urgent cases phone and remote connection |
