@@ -32,14 +32,15 @@ The case study is anonymised and contains no company, line, machine or person na
 |------|----------------|
 | Operator | reports the request, confirms in daily operation that the change works |
 | Analyst (my role) | clarifying the request, analysing alarm and fault history, specification, on-site test (UAT), operator training, documentation |
-| Electrical foreman | approving the request, joint decision on a program change, confirming the result, deciding on a rollback |
-| External programmer | implementing and uploading the change. As a separate organisation it has its own pool in the diagram |
+| Electrical foreman | approving the request, joint decision on a program change and on the programmer's reply, confirming the result, deciding on a rollback |
+| External programmer | replying to the specification, implementing and uploading the change. As a separate organisation it has its own pool in the diagram |
 | Operations manager | planning shutdowns. Has its own lane in the to-be diagram |
 
 ## Process scope
-The process starts with a problem on the line and ends with one of three outcomes:
+The process starts with a problem on the line and ends with one of four outcomes:
 - the request is rejected,
 - the problem is solved without a program change,
+- the change is technically not possible,
 - the change is handed over to operation.
 
 Supplier invoicing is out of scope, it is a separate process.
@@ -48,7 +49,11 @@ Supplier invoicing is out of scope, it is a separate process.
 1. **Approved?** The foreman decides whether the request is worth solving.
 2. **Is a program change needed?** The analyst decides together with the foreman, based on the analysis of alarm
    and fault history. Some problems are solved without touching the program.
-3. **Does it work?** The change is verified on site (UAT). If it does not work, the analyst sends the programmer
+3. **Can it be done?** The programmer replies to the specification and the foreman receives the reply in copy.
+   The analyst and the foreman then decide based on the reply. The change can be done as specified, or the
+   programmer proposes another solution and the analyst confirms it, or the change is technically not possible
+   and the foreman informs the operator.
+4. **Does it work?** The change is verified on site (UAT). If it does not work, the analyst sends the programmer
    a fault description and the change goes back for rework until the test passes.
 
 ## Risk control
@@ -78,11 +83,15 @@ went through this process:
 ## Modelling decisions
 - The external programmer is a separate pool, not a lane. It is a different organisation whose internal steps
   are neither known nor controlled by us. It is connected to the process only by message flows: specification,
-  change uploaded and fault description.
+  programmer's reply, proposal accepted, change uploaded and fault description.
 - Sequence flow (solid arrow) does not cross pools. Communication between organisations is shown as message flow
   (dashed arrow).
 - For readability, the joint decision of the analyst and the foreman is drawn as a gateway in the analyst lane
   with a note.
+- So far, another solution proposed by the programmer has always been accepted. There is therefore no "Accept the
+  proposal?" gateway in the as-is, the model shows how the process actually runs.
+- A merging gateway sits before the "Change uploaded" event. It joins three paths: the change as specified, the
+  confirmed proposal of the programmer and the fix after a reported fault.
 
 ## As-is model limitations
 - Rollback and shutdown planning are not drawn in the diagram. A to-be version would add them as separate steps,
@@ -139,6 +148,10 @@ Modelling decisions in the to-be:
 | Vyřešit bez změny programu · Vyřešeno | Solve without a program change · Solved |
 | Zpracovat specifikaci a podklady | Prepare the specification and input |
 | Předat specifikaci programátorovi | Send the specification to the programmer |
+| Vyjádření přijato | Reply received |
+| Lze realizovat? (rozhodnutí s mistrem) · JINÝ NÁVRH | Can it be done? (decided with the foreman) · OTHER PROPOSAL |
+| Potvrdit návrh programátorovi | Confirm the proposal to the programmer |
+| Informovat operátora o nerealizaci · Změna nerealizována | Inform the operator that the change will not be made · Change not made |
 | Změna nahrána | Change uploaded |
 | Otestovat změnu na místě (UAT) · Funguje? | Test the change on site (UAT) · Does it work? |
 | Nahlásit chybu programátorovi | Report the fault to the programmer |
@@ -146,6 +159,8 @@ Modelling decisions in the to-be:
 | Zaškolit operátory a aktualizovat dokumentaci | Train operators and update documentation |
 | Změna předána do provozu | Change handed over to operation |
 | SPECIFIKACE · ZMĚNA NAHRÁNA · POPIS CHYBY | SPECIFICATION · CHANGE UPLOADED · FAULT DESCRIPTION |
+| VYJÁDŘENÍ PROGRAMÁTORA (mistr v kopii) | PROGRAMMER'S REPLY (foreman in copy) |
+| SOUHLAS S NÁVRHEM (e-mail, nebo mistr telefonicky) | PROPOSAL ACCEPTED (e-mail, or the foreman by phone) |
 | **To-be only** | |
 | Vedoucí provozu | Operations manager |
 | Zapsat požadavek do evidence · Evidence požadavků | Record the request in the log · Request log |

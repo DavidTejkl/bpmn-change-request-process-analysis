@@ -30,14 +30,15 @@ Studie je anonymizovaná a neobsahuje názvy firmy, linek, strojů ani osob.
 |------|-------------|
 | Operátor | nahlašuje požadavek, v běžném provozu potvrzuje funkčnost změny |
 | Analytik (moje role) | vyjasnění požadavku, analýza historie alarmů a poruch, specifikace, test na místě (UAT), zaškolení operátorů, dokumentace |
-| Mistr elektro | schválení požadavku, spolurozhodnutí o změně programu, potvrzení výsledku, rozhodnutí o návratu na původní verzi |
-| Externí programátor | implementace a nahrání změny. Jako samostatná organizace má v diagramu vlastní pool |
+| Mistr elektro | schválení požadavku, spolurozhodnutí o změně programu a o vyjádření programátora, potvrzení výsledku, rozhodnutí o návratu na původní verzi |
+| Externí programátor | vyjádření ke specifikaci, implementace a nahrání změny. Jako samostatná organizace má v diagramu vlastní pool |
 | Vedoucí provozu | plánování odstávek. V diagramu to-be má vlastní dráhu |
 
 ## Hranice procesu
-Proces začíná problémem na lince a končí jedním ze tří výsledků:
+Proces začíná problémem na lince a končí jedním ze čtyř výsledků:
 - požadavek je zamítnut,
 - problém je vyřešen bez změny programu,
+- změnu nelze technicky provést,
 - změna je předána do provozu.
 
 Fakturace dodavatele do rozsahu nepatří, jde o samostatný proces.
@@ -46,7 +47,10 @@ Fakturace dodavatele do rozsahu nepatří, jde o samostatný proces.
 1. **Schváleno?** Mistr posoudí, zda má požadavek smysl řešit.
 2. **Je potřeba změna programu?** Rozhoduje analytik společně s mistrem na základě analýzy historie alarmů
    a poruch. Část problémů se vyřeší bez zásahu do programu.
-3. **Funguje?** Změna se ověřuje přímo na místě (UAT). Pokud nefunguje, analytik předá programátorovi popis chyby
+3. **Lze realizovat?** Programátor se ke specifikaci vyjádří a mistr dostane jeho odpověď v kopii. Analytik
+   s mistrem pak rozhodnou podle odpovědi. Změnu lze provést podle specifikace, nebo programátor navrhne jiné
+   řešení a analytik mu ho potvrdí, nebo změnu technicky provést nelze a mistr o tom informuje operátora.
+4. **Funguje?** Změna se ověřuje přímo na místě (UAT). Pokud nefunguje, analytik předá programátorovi popis chyby
    a změna se vrací k přepracování, dokud test neprojde.
 
 ## Řízení rizik
@@ -74,12 +78,16 @@ prošly:
 
 ## Modelovací rozhodnutí
 - Externí programátor je samostatný pool, nikoli dráha. Jde o jinou organizaci, jejíž vnitřní kroky nejsou
-  známé ani řízené z naší strany. S procesem ho propojují pouze toky zpráv: specifikace, nahrání změny
-  a popis chyby.
+  známé ani řízené z naší strany. S procesem ho propojují pouze toky zpráv: specifikace, vyjádření programátora,
+  souhlas s návrhem, nahrání změny a popis chyby.
 - Tok procesu (plná šipka) nepřechází mezi pooly. Komunikace mezi organizacemi je vyjádřena tokem zpráv
   (čárkovaná šipka).
 - Společné rozhodnutí analytika a mistra je kvůli přehlednosti zakresleno jako brána v dráze analytika
   s poznámkou.
+- Jiný návrh programátora byl zatím vždy přijat. Brána „Přijmout návrh?“ proto v as-is není, model zachycuje
+  skutečný průběh.
+- Před událostí „Změna nahrána“ je slučovací brána. Spojuje tři cesty: změnu podle specifikace, potvrzený návrh
+  programátora a opravu po nahlášené chybě.
 
 ## Omezení modelu as-is
 - Rollback ani plánování odstávky nejsou v diagramu zakresleny. Verze to-be by je doplnila jako samostatné kroky

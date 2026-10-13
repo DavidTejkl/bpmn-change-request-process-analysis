@@ -16,17 +16,23 @@ is in brackets.
 | 9 | Vyřešit bez změny programu (Solve without a program change) | Analyst | analysis | problem solved | end event: Vyřešeno (Solved) |
 | 10 | Zpracovat specifikaci a podklady (Prepare the specification and input) | Analyst | analysis | specification, for example a list of drives in Excel | |
 | 11 | Předat specifikaci programátorovi (Send the specification to the programmer) | Analyst | specification | message SPECIFIKACE | by e-mail, minor changes are sent together in one order |
-| 12 | Změna nahrána (Change uploaded) | Analyst | message ZMĚNA NAHRÁNA | | waits for the programmer, the upload takes place only during a shutdown |
-| 13 | Otestovat změnu na místě (Test the change on site, UAT) | Analyst and operator | uploaded change | test result | checked on the equipment itself, for example on the frequency converter |
-| 14 | Funguje? (Does it work?) | Analyst | test result | yes / no | if no, continue with step 15 |
-| 15 | Nahlásit chybu programátorovi (Report the fault to the programmer) | Analyst | test result | message POPIS CHYBY | back to step 12 (rework loop), urgent problems by phone |
-| 16 | Potvrdit správnost a funkčnost (Confirm correctness and function) | Foreman | test result | confirmation | the foreman also decides on a rollback if the change causes problems |
-| 17 | Zaškolit operátory a aktualizovat dokumentaci (Train operators and update documentation) | Analyst | confirmed change | trained operators, updated documentation | end event: Změna předána do provozu (Change handed over to operation) |
+| 12 | Vyjádření přijato (Reply received) | Analyst | message VYJÁDŘENÍ PROGRAMÁTORA | | waits for the programmer's reply, the foreman receives it in copy |
+| 13 | Lze realizovat? (Can it be done?) | Analyst and foreman | programmer's reply | yes / other proposal / no | joint decision, if other proposal, continue with step 14, if no, with step 15 |
+| 14 | Potvrdit návrh programátorovi (Confirm the proposal to the programmer) | Analyst | programmer's proposal | message SOUHLAS S NÁVRHEM | by e-mail, or the foreman by phone. So far a proposal has always been accepted |
+| 15 | Informovat operátora o nerealizaci (Inform the operator that the change will not be made) | Foreman | reply that the change is not possible | operator informed | end event: Změna nerealizována (Change not made) |
+| 16 | Změna nahrána (Change uploaded) | Analyst | message ZMĚNA NAHRÁNA | | waits for the programmer, the upload takes place only during a shutdown. A merging gateway before this step joins step 13 (yes), step 14 and step 19 |
+| 17 | Otestovat změnu na místě (Test the change on site, UAT) | Analyst and operator | uploaded change | test result | checked on the equipment itself, for example on the frequency converter |
+| 18 | Funguje? (Does it work?) | Analyst | test result | yes / no | if no, continue with step 19 |
+| 19 | Nahlásit chybu programátorovi (Report the fault to the programmer) | Analyst | test result | message POPIS CHYBY | back to step 16 (rework loop), urgent problems by phone |
+| 20 | Potvrdit správnost a funkčnost (Confirm correctness and function) | Foreman | test result | confirmation | the foreman also decides on a rollback if the change causes problems |
+| 21 | Zaškolit operátory a aktualizovat dokumentaci (Train operators and update documentation) | Analyst | confirmed change | trained operators, updated documentation | end event: Změna předána do provozu (Change handed over to operation) |
 
 ## Messages between the analyst and the external programmer
 | Message | From | To | Channel |
 |---------|------|----|---------|
 | SPECIFIKACE (specification) | Analyst | Programmer | e-mail |
+| VYJÁDŘENÍ PROGRAMÁTORA (programmer's reply) | Programmer | Analyst, foreman in copy | e-mail |
+| SOUHLAS S NÁVRHEM (proposal accepted) | Analyst or foreman | Programmer | e-mail from the analyst, or a phone call from the foreman |
 | ZMĚNA NAHRÁNA (change uploaded) | Programmer | Analyst | e-mail or phone |
 | POPIS CHYBY (fault description) | Analyst | Programmer | e-mail, in urgent cases phone and remote connection |
 
