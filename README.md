@@ -182,5 +182,6 @@ Modelling decisions in the to-be:
 - [`docs/specification_fm_reset.md`](docs/specification_fm_reset.md) specification of the change "Fault reset
   from the control room" with requirements, business rules, acceptance criteria, UAT record and traceability matrix
 - [`docs/user_stories.md`](docs/user_stories.md) user stories for the same change with MoSCoW priorities
+- [`docs/raci.md`](docs/raci.md) RACI matrix of the to-be process
 
 Author: David Tejkl · [LinkedIn](https://www.linkedin.com/in/david-tejkl) · [more projects on GitHub](https://github.com/DavidTejkl)

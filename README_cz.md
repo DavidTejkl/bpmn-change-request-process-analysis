@@ -136,5 +136,6 @@ Modelovací rozhodnutí v to-be:
 - [`docs/specification_fm_reset_cz.md`](docs/specification_fm_reset_cz.md) specifikace změny „Kvitace poruch
   z velínu“ s požadavky, obchodními pravidly, akceptačními kritérii, protokolem UAT a maticí sledovatelnosti
 - [`docs/user_stories_cz.md`](docs/user_stories_cz.md) user stories ke stejné změně s prioritami MoSCoW
+- [`docs/raci_cz.md`](docs/raci_cz.md) matice RACI procesu to-be
 
 Autor: David Tejkl · [LinkedIn](https://www.linkedin.com/in/david-tejkl) · [další projekty na GitHubu](https://github.com/DavidTejkl)
